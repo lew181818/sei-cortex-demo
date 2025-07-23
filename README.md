@@ -148,6 +148,13 @@ select category from docs_chunks_table group by category;
 ```
 
 # Create Streamlit to Query Cortex Search
+In Snowflake, navigate to create a new Streamlit App: 
+
+<img width="472" height="284" alt="image" src="https://github.com/user-attachments/assets/b1bcc9a2-4a98-4991-a75c-b856c69d9133" />
+
+Copy and paste the streamlit.py code and environment.yml files into the streamlit app. 
+
+
 
  
 
