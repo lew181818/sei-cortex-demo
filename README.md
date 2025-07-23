@@ -38,6 +38,23 @@ create or replace stage docs ENCRYPTION = (TYPE = 'SNOWFLAKE_SSE') DIRECTORY = (
 ls @docs;
 ```
 
-The ls @docs; command will not show any results. Navigate to your new database and schema, and click on the stage "docs". In the upper right corner of the dialog box, click to open the stage in a new window: <img width="370" height="112" alt="image" src="https://github.com/user-attachments/assets/b573ba4a-5576-437c-9105-a478e28824f7" />
+The ls @docs; command will not show any results. Navigate to your new database and schema, and click on the stage "docs". In the upper right corner of the dialog box, click to open the stage in a new window: 
+
+<img width="370" height="112" alt="image" src="https://github.com/user-attachments/assets/b573ba4a-5576-437c-9105-a478e28824f7" />
+
+Click add files, and drag or select files to upload. 
+
+<img width="170" height="66" alt="image" src="https://github.com/user-attachments/assets/bad2220e-6562-4048-b461-0bce672fdb69" />
+
+Specify the medical files to a medical directory and dental files to a dental directory. 
+
+<img width="485" height="105" alt="image" src="https://github.com/user-attachments/assets/08c4a45f-f5f0-4879-999a-adab5f3c19b1" />
+
+Close out this window and try ```ls @docs;``` again. You should see: 
+
+<img width="765" height="274" alt="image" src="https://github.com/user-attachments/assets/dbbc8aa8-9b27-49df-9230-f0557be63af5" />
+
+
+
  
 
