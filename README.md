@@ -17,7 +17,7 @@ Snowflake Cortex Search is a fully managed indexing and retrieval service that s
 
 ## Prerequisites
 1. Go to [Snowflake](www.snowflake.com)
-2. Sign up for a personal temporary account. You do not need to add a credit card number. The account will last 30 days and you will have $400 of free credits to use. You can create a new free account after the 30 days is up.
+2. Sign up for a personal temporary account. You do not need to add a credit card number. The account will last 30 days and you will have $400 of free credits to use. You can create a new free account after the 30 days is up. Create an AWS account in us-east-2 if able to select. 
 3. Make sure you can log in to the account.
 4. Download all documents from these 2 locations: [SEI Medical](https://sysev.sharepoint.com/:f:/r/sites/AllSEI/Shared%20Documents/Hello%20Services/HR%20Resources/Medical%20-%20Anthem%20Health%20Insurance?csf=1&web=1&e=XJgllw) and [SEI Dental](https://sysev.sharepoint.com/sites/AllSEI/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FAllSEI%2FShared%20Documents%2FHello%20Services%2FHR%20Resources%2FDelta%20Dental%20Insurance&viewid=d12be2dd%2Db55f%2D4f33%2D9c84%2D54f4e1d3c556)
 
@@ -57,6 +57,8 @@ Close out this window and try ```ls @docs;``` again. You should see:
 ## Prepare your data for cortex search
 
 ```
+ALTER ACCOUNT SET CORTEX_ENABLED_CROSS_REGION = 'AWS_US';
+
 CREATE or replace TEMPORARY table RAW_TEXT AS
 SELECT 
     RELATIVE_PATH,
@@ -152,7 +154,13 @@ In Snowflake, navigate to create a new Streamlit App:
 
 <img width="472" height="284" alt="image" src="https://github.com/user-attachments/assets/b1bcc9a2-4a98-4991-a75c-b856c69d9133" />
 
-Copy and paste the streamlit.py code and environment.yml files into the streamlit app. 
+Copy and paste the streamlit.py code and environment.yml files into the streamlit app. Click "Run" and start asking questions!
+
+# Items to explore
+1. Try searching without using the SEI docs
+2. Try out different models
+3. Observe the chunks that are returned and how relevant they are
+4. Try creating smaller or larger chunks and see if the responses are better / worse. 
 
 
 
