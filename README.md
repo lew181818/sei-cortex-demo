@@ -12,3 +12,29 @@ In a typical RAG application, there ia a process to chunk and embeed the content
 Snowflake Cortex Search is a fully managed indexing and retrieval service that simplifies and empower RAG applications. The service automatically creates embeddings and indexes and provides an enterprise search service that can be acessed via APIs:
 
 <img width="973" height="369" alt="image" src="https://github.com/user-attachments/assets/5da1fdbe-80c1-4e0a-aec1-9e178c85eafd" />
+
+# Get Started
+
+## Prerequisites
+1. Go to [Snowflake](www.snowflake.com)
+2. Sign up for a personal temporary account. You do not need to add a credit card number. The account will last 30 days and you will have $400 of free credits to use. You can create a new free account after the 30 days is up.
+3. Make sure you can log in to the account.
+4. Download all documents from these 2 locations: [SEI Medical](https://sysev.sharepoint.com/:f:/r/sites/AllSEI/Shared%20Documents/Hello%20Services/HR%20Resources/Medical%20-%20Anthem%20Health%20Insurance?csf=1&web=1&e=XJgllw) and [SEI Dental](https://sysev.sharepoint.com/sites/AllSEI/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FAllSEI%2FShared%20Documents%2FHello%20Services%2FHR%20Resources%2FDelta%20Dental%20Insurance&viewid=d12be2dd%2Db55f%2D4f33%2D9c84%2D54f4e1d3c556)
+
+I did not download the sub folders under medical, but if you want to, you could try with these and see if we get different results. 
+
+# Lab Instructions
+
+## Upload your data to Snowflake
+
+Open a new Snowsight SQL editor and run the following code: 
+
+```
+CREATE DATABASE SEI_MEDICAL_DENTAL;
+CREATE SCHEMA DATA;
+
+create or replace stage docs ENCRYPTION = (TYPE = 'SNOWFLAKE_SSE') DIRECTORY = ( ENABLE = true );
+
+ls @docs;
+```
+
