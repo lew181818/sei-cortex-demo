@@ -56,7 +56,7 @@ I did not download the sub folders under medical, but if you want to, you could 
 
 Open a new Snowsight SQL editor and run the following code: 
 
-```
+```sql
 CREATE DATABASE SEI_MEDICAL_DENTAL;
 CREATE SCHEMA DATA;
 
@@ -85,13 +85,13 @@ Close out this window and try ```ls @docs;``` again. You should see:
 
 1. Enable Cortex for our cloud provider and region
 
-```
+```sql
 ALTER ACCOUNT SET CORTEX_ENABLED_CROSS_REGION = 'AWS_US';
 ```
 
 2. Create a temporary table with data and metadata from each document stored in the table from the stage
    
-```
+```sql
 CREATE or replace TEMPORARY table RAW_TEXT AS
 SELECT 
     RELATIVE_PATH,
@@ -110,7 +110,7 @@ FROM
 
 3. For each file, chunk the data into smaller pieces of text for search. Note: Try adjusting the chunk size to see if the result is better. See above recommendations. 
 
-```
+```sql
 create or replace TABLE DOCS_CHUNKS_TABLE ( 
     RELATIVE_PATH VARCHAR(16777216), -- Relative path to the PDF file
     SIZE NUMBER(38,0), -- Size of the PDF
@@ -170,7 +170,7 @@ FROM
 
 5. Update the chunk table with the categories found above. This will help the LLM find the relevant information quickly.
 
-```
+```sql
 update docs_chunks_table 
   SET category = docs_categories.category
   from docs_categories
@@ -179,7 +179,7 @@ update docs_chunks_table
 
 6. Create the cortex search service that the LLM will use to query and find relevant information for each question
 
-```
+```sql
 create or replace CORTEX SEARCH SERVICE CC_SEARCH_SERVICE_CS
 ON chunk
 ATTRIBUTES category
