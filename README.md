@@ -7,6 +7,33 @@ In a typical RAG application, there ia a process to chunk and embeed the content
 
 <img width="7263" height="3196" alt="image" src="https://github.com/user-attachments/assets/076082f4-85ca-4413-b2fd-c7a4b5c79748" />
 
+# Chunking Data for LLMs
+### Why It Matters
+* Improves retrieval relevance, understanding, and response quality
+* Prevents exceeding token limits of models
+
+Each LLM has a maximum context length (in tokens). For example:
+
+* GPT-4: ~8k to 128k tokens (depending on version)
+* GPT-3.5: ~4k tokens
+* Claude 3 Opus: ~200k tokens
+
+A token ≠ word. One word ≈ 1.3–1.5 tokens on average.
+
+### Recommended Chunk Sizes by Use Case
+| Use Case              | Chunk Size (Tokens) | Overlap (Tokens) | Notes                              |
+|-----------------------|---------------------|------------------|------------------------------------|
+| RAG / Semantic Search | 300–500             | 50–100           | Balances precision + context       |
+| Document Summarization | 800–1200            | 100              | Longer = better flow               |
+| Q&A Over Text         | 200–600             | 50–100           | Enables pinpointing answers        |
+| Code Analysis         | 50–200 lines        | 0–20 lines       | Split by functions/logical blocks  |
+| HTML / Web Content    | 300–1000            | 50               | Use semantic sections              |
+
+
+### Tips
+* Use semantic/structural splitting (not fixed length)
+* Add overlap to avoid cutting off meaning
+* Use tokenizers (e.g., tiktoken) to stay within limits
 
 # Cortex
 Snowflake Cortex Search is a fully managed indexing and retrieval service that simplifies and empower RAG applications. The service automatically creates embeddings and indexes and provides an enterprise search service that can be acessed via APIs:
@@ -56,9 +83,13 @@ Close out this window and try ```ls @docs;``` again. You should see:
 
 ## Prepare your data for cortex search
 
+1. Enable Cortex for our cloud provider and region
+
 ```
 ALTER ACCOUNT SET CORTEX_ENABLED_CROSS_REGION = 'AWS_US';
-
+```
+2. Create a temporary table with data and metadata from each document stored in the table from the stage
+```
 CREATE or replace TEMPORARY table RAW_TEXT AS
 SELECT 
     RELATIVE_PATH,
@@ -73,7 +104,10 @@ SELECT
         ) AS EXTRACTED_LAYOUT 
 FROM 
     DIRECTORY('@docs');
+```
+3. For each file, chunk the data into smaller pieces of text for search. Add a category for each chunk of text (medical or dental). Note: Try adjusting the chunk size to see if the result is better. 
 
+```
 create or replace TABLE DOCS_CHUNKS_TABLE ( 
     RELATIVE_PATH VARCHAR(16777216), -- Relative path to the PDF file
     SIZE NUMBER(38,0), -- Size of the PDF
@@ -154,7 +188,19 @@ In Snowflake, navigate to create a new Streamlit App:
 
 <img width="472" height="284" alt="image" src="https://github.com/user-attachments/assets/b1bcc9a2-4a98-4991-a75c-b856c69d9133" />
 
-Copy and paste the streamlit.py code and environment.yml files into the streamlit app. Click "Run" and start asking questions!
+Choose a name for your app, and select the database and schema you used in the previous steps: 
+<img width="589" height="415" alt="image" src="https://github.com/user-attachments/assets/55f329ca-852c-420d-9006-b3dddb0a8ee8" />
+
+Copy and paste the streamlit.py code and environment.yml files into the streamlit app. Click "Run". 
+
+Navigate back to Snowflake Home and click on your streamlit app. 
+
+<img width="1120" height="477" alt="image" src="https://github.com/user-attachments/assets/5003f4ba-b39e-42f6-bbc0-d3ad44edac25" />
+
+<img width="1354" height="687" alt="image" src="https://github.com/user-attachments/assets/76b44df7-98b0-4a60-bd0f-d38c66b371e2" />
+
+
+
 
 # Items to explore
 1. Try searching without using the SEI docs
