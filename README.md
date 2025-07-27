@@ -202,6 +202,14 @@ as (
 ```
 
 # Create Streamlit to Query Cortex Search
+
+## What is Streamlit?
+Streamlit is an open-source Python framework for building interactive web apps quickly and easily, especially for data science and machine learning use cases. It lets you turn Python scripts into shareable apps with widgets like sliders, dropdowns, and charts—all with minimal front-end code. Streamlit is popular for creating dashboards, prototypes, and tools that visualize and interact with data in real time.
+
+Snowflake acquired Streamlit and now provides it as a native, hosted dashboarding solution under their "data-app" development framework Snowpark. 
+
+## Create a streamlit app
+
 In Snowflake, navigate to create a new Streamlit App: 
 
 <img width="472" height="284" alt="image" src="https://github.com/user-attachments/assets/b1bcc9a2-4a98-4991-a75c-b856c69d9133" />
@@ -217,14 +225,77 @@ Navigate back to Snowflake Home and click on your streamlit app.
 
 <img width="1354" height="687" alt="image" src="https://github.com/user-attachments/assets/76b44df7-98b0-4a60-bd0f-d38c66b371e2" />
 
+## Code Explanation
+The streamlit code contains the UI elements to provide the drop down of categories, models, and whether to use SEI docs in the response. It also includes the prompt window to allow a user to ask a question. 
 
+If the user has selected to use the RAG we developed in the previous steps, the logic will grab the relevant chunks to provide additional context to the model. It will add the retrieved context to a predefined prompt to give the model basic instructions. 
 
+```python
+    if st.session_state.rag == 1:
+        prompt_context = get_similar_chunks_search_service(myquestion)
+  
+        prompt = f"""
+           You are an expert chat assistance that extracs information from the CONTEXT provided
+           between <context> and </context> tags.
+           When ansering the question contained between <question> and </question> tags
+           be concise and do not hallucinate. 
+           If you don´t have the information just say so.
+           Only anwer the question if you can extract it from the CONTEXT provideed.
+           
+           Do not mention the CONTEXT used in your answer.
+    
+           <context>          
+           {prompt_context}
+           </context>
+           <question>  
+           {myquestion}
+           </question>
+           Answer: 
+           """
 
-# Items to explore
+        json_data = json.loads(prompt_context)
+
+        relative_paths = set(item['relative_path'] for item in json_data['results'])
+```
+
+The user question entered in the input box is added to the prompt above and sent to the command: 
+
+```python
+    prompt, relative_paths =create_prompt (myquestion)
+    cmd = """
+            select snowflake.cortex.complete(?, ?) as response
+          """
+    
+    df_response = session.sql(cmd, params=[st.session_state.model_name, prompt]).collect()
+```
+
+to get a response with the chosen model. 
+
+## Items to explore
 1. Try searching without using the SEI docs
 2. Try out different models
 3. Observe the chunks that are returned and how relevant they are
-4. Try creating smaller or larger chunks and see if the responses are better / worse. 
+4. Try creating smaller or larger chunks and see if the responses are better / worse.
+
+# SEI Impacts
+Rapidly evolving and innovating
+
+## Competitors
+* AWS SageMaker (Bedrock, Textract, Jumpstart, etc)
+* Azure Data Fabric
+* GCP? Others?
+* https://autotasks.io/
+
+## Client Usage
+* Agents
+* Marketplace
+* Structured / Unstructured data
+* AI SQL editor
+* Cortex Intelligence
+* Openflow - Confluence, Sharepoint, etc? 
+
+
+
 
 
 
