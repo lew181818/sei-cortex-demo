@@ -278,7 +278,7 @@ to get a response with the chosen model.
 4. Try creating smaller or larger chunks and see if the responses are better / worse.
 
 # SEI Impacts
-Rapidly evolving and innovating
+Rapidly evolving and innovating space - every vendor is releasing new products and features quickly! Models are improving rapidly, new vector databases, less detailed knowledge needed to operate. 
 
 ## Competitors
 * AWS SageMaker (Bedrock, Textract, Jumpstart, etc)
@@ -292,7 +292,12 @@ Rapidly evolving and innovating
 * Structured / Unstructured data
 * AI SQL editor
 * Cortex Intelligence
-* Openflow - Confluence, Sharepoint, etc? 
+* Openflow - Confluence, Sharepoint, etc?
+
+## SEI Opportunities
+* Data Strategy + Unstructured Data Mngt
+* AI Governance and Security
+* Others? 
 
 
 
