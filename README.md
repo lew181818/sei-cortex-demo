@@ -2,6 +2,12 @@
 
 This example repo is based on a quickstart from Snowflake. The quickstart was archived, but the original version is located here: [QuickStart](https://github.com/Snowflake-Labs/sfquickstarts/blob/b792a6ae6d7f832782a92cb28e843ad57101e54b/site/sfguides/src/ask-questions-to-your-documents-using-rag-with-snowflake-cortex-search/ask_questions_to_your_own_documents_with_snowflake_cortex_search.md)
 
+# Snowflake Cortex
+<img width="1920" height="747" alt="image" src="https://github.com/user-attachments/assets/34e793bc-3f85-4cf9-94ca-12bf57299c02" />
+
+[Snowflake Cortex](https://www.snowflake.com/en/product/features/cortex/) 
+
+
 # RAG Overview
 In a typical RAG application, there ia a process to chunk and embeed the content into a Vector store that is used later to retrieve the similar chunks of content, who are passed into a LLM to provide an answer:
 
