@@ -88,7 +88,9 @@ Close out this window and try ```ls @docs;``` again. You should see:
 ```
 ALTER ACCOUNT SET CORTEX_ENABLED_CROSS_REGION = 'AWS_US';
 ```
+
 2. Create a temporary table with data and metadata from each document stored in the table from the stage
+   
 ```
 CREATE or replace TEMPORARY table RAW_TEXT AS
 SELECT 
@@ -105,6 +107,7 @@ SELECT
 FROM 
     DIRECTORY('@docs');
 ```
+
 3. For each file, chunk the data into smaller pieces of text for search. Note: Try adjusting the chunk size to see if the result is better. See above recommendations. 
 
 ```
@@ -137,9 +140,11 @@ insert into docs_chunks_table (relative_path, size, file_url,
               256,
               ['\n\n', '\n', ' ', '']
            )) c;
-'''
+```
+
 4. Add a category for each chunk of text (medical or dental). Note - if you didn't have the category as explicitely as we have the files organized, the cortex "classify_text" can apply a category based on the context in each chunk. 
 
+```sql
  CREATE OR REPLACE TEMPORARY TABLE docs_categories AS WITH unique_documents AS (
   SELECT
     DISTINCT relative_path, chunk
@@ -161,18 +166,20 @@ SELECT
   *
 FROM
   docs_category_cte;
-'''
+```
+
 5. Update the chunk table with the categories found above. This will help the LLM find the relevant information quickly.
 
-'''
+```
 update docs_chunks_table 
   SET category = docs_categories.category
   from docs_categories
   where  docs_chunks_table.relative_path = docs_categories.relative_path;
-'''
+```
+
 6. Create the cortex search service that the LLM will use to query and find relevant information for each question
 
-'''
+```
 create or replace CORTEX SEARCH SERVICE CC_SEARCH_SERVICE_CS
 ON chunk
 ATTRIBUTES category
