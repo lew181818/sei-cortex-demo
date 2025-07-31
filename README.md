@@ -217,7 +217,13 @@ In Snowflake, navigate to create a new Streamlit App:
 Choose a name for your app, and select the database and schema you used in the previous steps: 
 <img width="589" height="415" alt="image" src="https://github.com/user-attachments/assets/55f329ca-852c-420d-9006-b3dddb0a8ee8" />
 
-Copy and paste the streamlit.py code and environment.yml files into the streamlit app. Click "Run". 
+Copy and paste the streamlit.py code and environment.yml files into the streamlit app. 
+
+Click packages and search for "snowflake.core". Click on snowflake.core to enable for your app. 
+
+<img width="383" height="238" alt="image" src="https://github.com/user-attachments/assets/9dd4d39c-3986-44ea-8350-f26e6c73d17a" />
+
+Click "Run". 
 
 Navigate back to Snowflake Home and click on your streamlit app. 
 
